@@ -1,0 +1,63 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="content-section">
+    <div>
+        <h1 style="text-align: center">Task Master</h1>
+    </div>
+    <div>
+        {% if tasks|length < 1 %}
+        <h4 style="text-align: center">There are no tasks. Create one below!</h4>
+        {% else %}
+            <table class="table table-hover table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Task</th>
+                        <th>Added</th>
+                        <th>Actions</th>
+                    </tr> 
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.content }}</td>
+                        <td>{{ task.date_created.date() }}</td>
+                        <td>
+                            <a href="/delete/{{task.id}}">Delete</a>
+                            <br>
+                            <a href="/update/{{task.id}}">Update</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    <div>
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+    
+            <fieldset class="form-group">
+                <div class="form-group">
+                    {{ form.content.label(class="form-control-label") }}
+
+                    {% if form.content.errors %}
+                        {{ form.content(class="form-control form-control-lg is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.content(class="form-control form-control-lg") }}
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-outline-info") }}
+                </div>
+            </fieldset>
+            
+        </form>
+    </div>
+</div>
+{% endblock %}
